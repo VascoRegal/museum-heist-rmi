@@ -243,7 +243,7 @@ public class OrdinaryThief extends Thief
     {
         try {
             int roomLocation = museumMemoryStub.getRoomLocation(roomId);
-            partiesSiteMemory.crawlIn(id, roomLocation, this.getMaxDisplacement());
+            partiesSiteMemory.crawlIn(id, this.getMaxDisplacement(), roomLocation);
             generalMemory.setOrdinaryThiefState(this.id, ThiefState.AT_A_ROOM);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -292,7 +292,7 @@ public class OrdinaryThief extends Thief
     {
         try {
             this.setThiefState(ThiefState.COLLECTION_SITE);
-            collectionSiteMemory.handCanvas(id);
+            collectionSiteMemory.handCanvas(id, hasCanvas);
             this.setPartyId(-1);
             generalMemory.setOrdinaryThiefState(id, ThiefState.CONCENTRATION_SITE);
             this.setThiefState(ThiefState.CONCENTRATION_SITE);

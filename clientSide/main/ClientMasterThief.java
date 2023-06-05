@@ -33,6 +33,7 @@ public class ClientMasterThief
       GeneralRepoInterface reposStub = null;                        // remote reference to the general repository object
       CollectionSiteInterface cStub = null;
       PartiesInterface pStub = null;
+      MuseumInterface mStub = null;
       Registry registry = null;                                      // remote reference for registration in the RMI registry service
 
       try
@@ -48,6 +49,7 @@ public class ClientMasterThief
       { reposStub = (GeneralRepoInterface) registry.lookup (Resolver.RMIGeneralName);
         cStub = (CollectionSiteInterface) registry.lookup(Resolver.RMIColSiteName);
         pStub = (PartiesInterface) registry.lookup(Resolver.RMIPartiesName);
+        mStub = (MuseumInterface) registry.lookup(Resolver.RMIMuseumName);
       }
       catch (RemoteException e)
       { 

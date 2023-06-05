@@ -15,7 +15,7 @@ import interfaces.*;
  *    Communication is based on Java RMI.
  */
 
-public class ServerGeneralRepo
+public class ServerMuseum
 {
   /**
    *  Flag signaling the end of operations.
@@ -36,11 +36,11 @@ public class ServerGeneralRepo
 
      /* instantiate a general repository object */
 
-      GeneralRepo repo = new GeneralRepo ();                      // general repository object
-      GeneralRepoInterface reposStub = null;                        // remote reference to the general repository object
+      Museum repo = new Museum();                      // general repository object
+      MuseumInterface mStub = null;                        // remote reference to the general repository object
 
       try
-      { reposStub = (GeneralRepoInterface) UnicastRemoteObject.exportObject (repo, Resolver.GeneralPort);
+      { mStub = (MuseumInterface) UnicastRemoteObject.exportObject (repo, Resolver.MuseumPort);
       }
       catch (RemoteException e)
       { 
@@ -62,7 +62,7 @@ public class ServerGeneralRepo
       }
 
       try
-      { registry.bind (Resolver.RMIGeneralName, reposStub);
+      { registry.bind (Resolver.RMIMuseumName, mStub);
       }
       catch (RemoteException e)
       { 
@@ -72,7 +72,7 @@ public class ServerGeneralRepo
       catch (AlreadyBoundException e)
       { 
         try {
-          registry.rebind(Resolver.RMIGeneralName, reposStub);
+          registry.rebind(Resolver.RMIMuseumName, mStub);
         } catch (AccessException e1) {
           // TODO Auto-generated catch block
           e1.printStackTrace();
@@ -85,9 +85,9 @@ public class ServerGeneralRepo
      /* wait for the end of operations */
       try
       { while (!end)
-          synchronized (Class.forName ("serverSide.main.ServerGeneralRepo"))
+          synchronized (Class.forName ("serverSide.main.ServerMuseum"))
           { try
-            { (Class.forName ("serverSide.main.ServerGeneralRepo")).wait ();
+            { (Class.forName ("serverSide.main.ServerMuseum")).wait ();
             }
             catch (InterruptedException e)
             { 
@@ -136,8 +136,8 @@ public class ServerGeneralRepo
    {
       end = true;
       try
-      { synchronized (Class.forName ("serverSide.main.ServerGeneralRepo"))
-        { (Class.forName ("serverSide.main.ServerGeneralRepo")).notify ();
+      { synchronized (Class.forName ("serverSide.main.ServerMuseum"))
+        { (Class.forName ("serverSide.main.ServerMuseum")).notify ();
         }
       }
      catch (ClassNotFoundException e)

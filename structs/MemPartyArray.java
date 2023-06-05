@@ -97,6 +97,8 @@ public class MemPartyArray {
         if (insertIdx == (data.length - 1) && tail == -1) {   // if its the last thief
             tail = thief;                                       // assign it to tail
         }
+
+        states[thief] = ThiefState.CRAWLING_INWARDS;
     }
 
     /**
@@ -240,7 +242,11 @@ public class MemPartyArray {
             increment = - increment;
         }
 
-        finalPosition = positions[currentThief] + increment;                           // move the thief
+
+        System.out.println("Pos BEFORE for thief OT_" + currentThief + " : " + positions[currentThief]);
+        positions[currentThief] += increment;
+        System.out.println("Pos AFTER for thief OT_" + currentThief + " : " + positions[currentThief]);
+        finalPosition = positions[currentThief];                          // move the thief
 
         if (states[currentThief] == ThiefState.CRAWLING_INWARDS) {      // update head if position is new maximum
             if (finalPosition > positions[head]) {
@@ -300,6 +306,11 @@ public class MemPartyArray {
     public void setPosition(int thiefId, int position)
     {
         this.positions[thiefId] = position;
+    }
+
+    public void setState(int thiefId, int state)
+    {
+        this.states[thiefId] = state;
     }
     /*
     public void updateThreads()

@@ -56,6 +56,11 @@ public class CollectionSite implements CollectionSiteInterface {
     private int[] otStates;
 
     /**
+     * ordinary thief canvas tracking
+     */
+    private boolean[] otcanvas;
+
+    /**
      * party active flags
      */
     private int[] partyActivity;
@@ -106,10 +111,12 @@ public class CollectionSite implements CollectionSiteInterface {
 
         ots = new Thread[HeistConstants.NUM_THIEVES];
         otStates = new int[HeistConstants.NUM_THIEVES];
+        otcanvas = new boolean[HeistConstants.NUM_THIEVES];
         for (i = 0; i < HeistConstants.NUM_THIEVES; i++)
         {
             ots[i] = null;
             otStates[i] = -1;
+            otcanvas[i] = false;
         }
         partyAssignments = new int[HeistConstants.NUM_THIEVES];
         for (i = 0; i < HeistConstants.NUM_THIEVES; i++)
@@ -271,10 +278,11 @@ public class CollectionSite implements CollectionSiteInterface {
     /**
      * enqueue ordinary thief in canvas collection
      */
-    public synchronized void handCanvas(int ordinaryThiefId)
+    public synchronized void handCanvas(int ordinaryThiefId, boolean cv)
     {
         ots[ordinaryThiefId] = Thread.currentThread();
         otStates[ordinaryThiefId] = (ThiefState.COLLECTION_SITE);
+        otcanvas[ordinaryThiefId] = cv;
         collectingThieves.enqueue(ordinaryThiefId);
         notifyAll();
 
@@ -299,18 +307,16 @@ public class CollectionSite implements CollectionSiteInterface {
      */
     public synchronized void collectCanvas()
     {
-        /*
-         collectingThief;
+        
+
         int party, thiefId;
 
         thiefId = collectingThieves.dequeue();
         party = partyAssignments[thiefId];
 
-        collectingThief = ots[thiefId];
-
         System.out.println("[COLLECTION_SITE] MasterThief - Collecting OrdinaryThief_" + thiefId + " canvas");
 
-        if (collectingThief.getCanvas())
+        if (otcanvas[thiefId])
         {
             paintings++;
             System.out.println(paintings);
@@ -341,9 +347,10 @@ public class CollectionSite implements CollectionSiteInterface {
             activeParties--;
         }
 
-        collectingThief.setThiefState(ThiefState.CONCENTRATION_SITE);
+        otStates[thiefId] = (ThiefState.CONCENTRATION_SITE);
+        otcanvas[thiefId] = false;
         notifyAll();
-        */
+        
     }
 
     /**

@@ -41,6 +41,7 @@ public class ClientOrdinaryThief {
             generalMemoryStub = (GeneralRepoInterface) registry.lookup(Resolver.RMIGeneralName);
             collectionSiteMemoryStub = (CollectionSiteInterface) registry.lookup(Resolver.RMIColSiteName);
             partiesMemoryStub = (PartiesInterface) registry.lookup(Resolver.RMIPartiesName);
+            museumMemoryStub = (MuseumInterface) registry.lookup(Resolver.RMIMuseumName);
         } catch (RemoteException | NotBoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

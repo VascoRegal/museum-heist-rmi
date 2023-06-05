@@ -35,6 +35,7 @@ public final class Resolver {
     // Museum
     public static final String MuseumHost = "localhost";
     public static final int MuseumPort = 22173;
+    public static final String RMIMuseumName = "Mus";
 
 
     /* 

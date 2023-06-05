@@ -112,8 +112,8 @@ public class Parties implements PartiesInterface {
     {
 
         ots[ordinaryThiefId] = Thread.currentThread();
+        states[ordinaryThiefId] = ThiefState.CRAWLING_INWARDS;
         partyMembers[ordinaryThiefId] = partyId;
-
         if (parties[partyId] == null)
         {
             parties[partyId] = new MemPartyArray(new int[HeistConstants.PARTY_SIZE]);
@@ -130,7 +130,7 @@ public class Parties implements PartiesInterface {
         while (true)
         {
             try {
-                System.out.println("[PARTY_" + partyId + " OT_" + ordinaryThiefId + " preparing for excursion");
+                System.out.println("[PARTY_" + partyId + "] OT_" + ordinaryThiefId + " preparing for excursion");
                 wait();
                 if (readyParties[partyId] != 0 && partyMembers[ordinaryThiefId] == partyId)
                 {
@@ -141,7 +141,7 @@ public class Parties implements PartiesInterface {
                 e.printStackTrace();
             }
         }
-        System.out.println("[PARTY_" + partyId + " OT_" + ordinaryThiefId + " starting movement");
+        System.out.println("[PARTY_" + partyId + "] OT_" + ordinaryThiefId + " starting movement");
         readyParties[partyId]--;
         return partyRooms[partyId];
     }
@@ -168,20 +168,21 @@ public class Parties implements PartiesInterface {
                     e.printStackTrace();
                 }
             }
-            System.out.println("[PARTY_" + partyId + " OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") trying to move");
+            System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") trying to move");
             while (parties[partyId].canMove(currentThief) && parties[partyId].getPosition(currentThief) < roomLocation) {
-                System.out.println("[PARTY_" + partyId + " OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") can move");
+                System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") can move");
                 parties[partyId].doBestMove(currentThief, md);
             }
-            System.out.println("[PARTY_" + partyId + " OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") can no longer move");
+            System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") can no longer move");
             closestThief = parties[partyId].getNext(currentThief);
             nextMovingThief[partyId] = closestThief;
             notifyAll();
 
             if (parties[partyId].getPosition(currentThief) >= roomLocation) {
                 states[currentThief] = ThiefState.AT_A_ROOM;
+                parties[partyId].setState(currentThief, ThiefState.AT_A_ROOM);
                 parties[partyId].setPosition(currentThief, roomLocation);
-                System.out.println("[PARTY_" + partyId + " OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") arrived at location");
+                System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") arrived at location");
                 if (currentThief == parties[partyId].tail())
                 {
                     nextMovingThief[partyId] = -1;
@@ -204,7 +205,8 @@ public class Parties implements PartiesInterface {
         siteLocation = 0;
 
         partyId = partyMembers[currentThief];
-
+        parties[partyId].setState(currentThief, ThiefState.CRAWLING_OUTWARDS);
+    
         if (currentThief == parties[partyId].tail())
         {
             nextMovingThief[partyId] = parties[partyId].head();
@@ -223,10 +225,10 @@ public class Parties implements PartiesInterface {
                 }
             }
             while (parties[partyId].canMove(currentThief) && parties[partyId].getPosition(currentThief) > siteLocation) {
-                System.out.println("[PARTY_" + partyId + " OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") trying to move");
+                System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") trying to move");
                 parties[partyId].doBestMove(currentThief, md);
             }
-            System.out.println("[PARTY_" + partyId + " OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") can no longer move");
+            System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") can no longer move");
 
             closestThief = parties[partyId].getNext(currentThief);
             nextMovingThief[partyId] = closestThief;
@@ -234,6 +236,7 @@ public class Parties implements PartiesInterface {
 
             if (parties[partyId].getPosition(currentThief) <= siteLocation) {
                 states[currentThief] = ThiefState.COLLECTION_SITE;
+                parties[partyId].setState(currentThief, ThiefState.COLLECTION_SITE);
                 parties[partyId].setPosition(currentThief, siteLocation);
                 
                 partyMembers[currentThief] = -1;
@@ -254,11 +257,11 @@ public class Parties implements PartiesInterface {
                         rooms[partyRooms[partyId]] = RoomState.AVAILABLE;
                     }
 
+                    System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") arrived at collection site");
                     parties[partyId] = null;
                     partyRooms[partyId] = -1;
                     nextMovingThief[partyId] = -1;
                     readyParties[partyId] = -1;
-                    System.out.println("[PARTY_" + partyId + " OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") arrived at collection site");
                 }
 
                 break;
