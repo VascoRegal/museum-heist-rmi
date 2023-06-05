@@ -3,6 +3,7 @@ package serverSide.objects;
 import clientSide.entities.ThiefState;
 import consts.HeistConstants;
 import interfaces.CollectionSiteInterface;
+import serverSide.main.ServerCollectionSite;
 import structs.MemQueue;
 
 /**
@@ -170,7 +171,7 @@ public class CollectionSite implements CollectionSiteInterface {
 
         notifyAll();
         System.out.println("[COLLECTION_SITE] OrdinaryThief_" + ordinaryThiefId+  " waiting to joing party");
-        while (otStates[ordinaryThiefId] == ThiefState.CONCENTRATION_SITE)
+        while (otStates[ordinaryThiefId] == ThiefState.CONCENTRATION_SITE && heistInProgress)
         {
             try {
                 wait();
@@ -180,6 +181,13 @@ public class CollectionSite implements CollectionSiteInterface {
             }
         }
         System.out.println("[COLLECTION_SITE] OrdinaryThief_" + ordinaryThiefId+  " called for Party_" + partyAssignments[ordinaryThiefId]);
+
+        if (!heistInProgress)
+        {
+            notifyAll();
+            return -1;
+        }
+
         return partyAssignments[ordinaryThiefId];
     }
 
@@ -201,6 +209,7 @@ public class CollectionSite implements CollectionSiteInterface {
 
             mtState = (ThiefState.PRESENTING_THE_REPORT);
             heistInProgress = false;
+            notifyAll();
             return 's';
         }
         if (activeParties == HeistConstants.MAX_NUM_PARTIES ||
@@ -368,5 +377,11 @@ public class CollectionSite implements CollectionSiteInterface {
         }
 
         return -1;
+    }
+
+    public void shutdown()
+    {
+        System.out.println("Shutting down...");
+        ServerCollectionSite.shutdown();
     }
 }

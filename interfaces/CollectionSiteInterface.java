@@ -80,4 +80,6 @@ public interface CollectionSiteInterface extends Remote
   public void collectCanvas() throws RemoteException;
 
   public void handCanvas(int thiefId, boolean cv) throws RemoteException;
+
+  public void shutdown() throws RemoteException;
 }

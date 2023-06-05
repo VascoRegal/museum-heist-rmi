@@ -107,7 +107,6 @@ public class OrdinaryThief extends Thief
             crawlOut(hasCanvas);
             handACanvas(hasCanvas);
         }
-
     }
 
     /**

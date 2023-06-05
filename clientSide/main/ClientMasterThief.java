@@ -71,5 +71,16 @@ public class ClientMasterThief
         // TODO Auto-generated catch block
         e.printStackTrace();
     }
+
+    try {
+      reposStub.shutdown();
+      cStub.shutdown();
+      pStub.shutdown();
+      mStub.shutdown();
+    } catch (RemoteException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
    }
 }

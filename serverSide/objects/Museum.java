@@ -4,6 +4,7 @@ import consts.HeistConstants;
 import interfaces.MuseumInterface;
 import serverSide.entities.Room;
 import serverSide.entities.RoomState;
+import serverSide.main.ServerMuseum;
 
 
 
@@ -73,5 +74,11 @@ public class Museum implements MuseumInterface {
 
         System.out.println(String.format("[MUSEUM] Room_%d has %d paintings remaining", roomId, rooms[roomId].getNumHangingPaintings()));
         return picked;
+    }
+
+    public void shutdown()
+    {
+        System.out.println("Shutting down...");
+        ServerMuseum.shutdown();
     }
 }

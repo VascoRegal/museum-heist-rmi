@@ -12,5 +12,7 @@ public interface PartiesInterface extends Remote {
     public void crawlIn(int thiefId, int roomLocation, int md) throws RemoteException;
 
     public void crawlOut(int thiefId, int md, boolean cv) throws RemoteException;
+
+    public void shutdown() throws RemoteException;
     
 }

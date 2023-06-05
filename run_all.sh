@@ -28,7 +28,7 @@ read -p ">>> Press any key to launch servers"
 printf "[+] Launching Servers...\n"
 for s in ${servers[@]}; do
     printf "\t $s\n"
-    xterm -T $s -hold -e java ${serverDir}${s} &
+    xterm -T $s -e java ${serverDir}${s} &
     printf "\n"
     sleep 1
 done
@@ -39,7 +39,7 @@ read -p ">>> Press any key to launch clients"
 printf "\n\n[+] Launching Clients...\n"
 for c in ${clients[@]}; do
     printf "\t $c\n" 
-    xterm -T $c -hold -e java ${clientDir}${c} &
+    xterm -T $c -e java ${clientDir}${c} &
     printf "\n"
     sleep 1
 done

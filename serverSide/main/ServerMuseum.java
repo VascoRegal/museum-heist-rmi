@@ -105,7 +105,7 @@ public class ServerMuseum
       boolean shutdownDone = false;                                  // flag signalling the shutdown of the general repository service
 
       try
-      { registry.unbind (Resolver.GeneralHost);
+      { registry.unbind (Resolver.RMIMuseumName);
       }
       catch (RemoteException e)
       { 

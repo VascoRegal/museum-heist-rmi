@@ -3,6 +3,7 @@ package serverSide.objects;
 import clientSide.entities.ThiefState;
 import consts.HeistConstants;
 import interfaces.GeneralRepoInterface;
+import serverSide.main.ServerGeneralRepo;
 
 /**
  * General shared region
@@ -62,5 +63,11 @@ public class GeneralRepo implements GeneralRepoInterface {
     {
         System.out.println("[GENERAL] Update OrdinaryThief_" + thiefId + " state to " + ts);
         this.otStates[thiefId] = ts;
+    }
+
+    public void shutdown()
+    {
+        System.out.println("Shutting down...");
+        ServerGeneralRepo.shutdown();
     }
 }

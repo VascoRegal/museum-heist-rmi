@@ -4,6 +4,7 @@ import clientSide.entities.ThiefState;
 import consts.HeistConstants;
 import interfaces.PartiesInterface;
 import serverSide.entities.RoomState;
+import serverSide.main.ServerParties;
 import structs.MemException;
 import structs.MemPartyArray;
 
@@ -31,6 +32,11 @@ public class Parties implements PartiesInterface {
      * reference to parties ready to be sent
      */
     private int readyParties[];
+
+    /**
+     * reference to memebers ready in party
+     */
+    private int readyMembers[];
 
     /**
      * array of party MemArrays for movement operations
@@ -73,12 +79,14 @@ public class Parties implements PartiesInterface {
         parties = new MemPartyArray[HeistConstants.MAX_NUM_PARTIES];
         nextMovingThief = new int[HeistConstants.MAX_NUM_PARTIES];
         partyRooms = new int[HeistConstants.MAX_NUM_PARTIES];
+        readyMembers = new int[HeistConstants.MAX_NUM_PARTIES];
         for (i = 0; i < HeistConstants.MAX_NUM_PARTIES; i++)
         {
             readyParties[i] = 0;
             parties[i] = null;
             nextMovingThief[i] = -1;
             partyRooms[i] = -1;
+            readyMembers[i] = 0;
         }
         rooms = new RoomState[HeistConstants.NUM_ROOMS];
         for (i = 0; i < HeistConstants.NUM_ROOMS; i++)
@@ -97,9 +105,22 @@ public class Parties implements PartiesInterface {
         roomId = findNonClearedRoom();
         System.out.println("[PARTY_" + partyId + "] to Room_" + roomId);
         rooms[roomId] = RoomState.IN_PROGRESS;
-        readyParties[partyId] = HeistConstants.PARTY_SIZE;
+        readyParties[partyId] = -1;
         partyRooms[partyId] = roomId;
 
+
+        while (readyMembers[partyId] != HeistConstants.PARTY_SIZE)
+        {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        readyParties[partyId] = 1;
+        readyMembers[partyId] = 0;
         notifyAll();
     }
 
@@ -127,12 +148,19 @@ public class Parties implements PartiesInterface {
             System.exit(1);
         }
 
+        readyMembers[partyId]++;
+
+        if (ordinaryThiefId == parties[partyId].tail())
+        {
+            notifyAll();
+        }
+
         while (true)
         {
             try {
                 System.out.println("[PARTY_" + partyId + "] OT_" + ordinaryThiefId + " preparing for excursion");
                 wait();
-                if (readyParties[partyId] != 0 && partyMembers[ordinaryThiefId] == partyId)
+                if (readyParties[partyId] == 1 && partyMembers[ordinaryThiefId] == partyId)
                 {
                     break;
                 }
@@ -142,7 +170,6 @@ public class Parties implements PartiesInterface {
             }
         }
         System.out.println("[PARTY_" + partyId + "] OT_" + ordinaryThiefId + " starting movement");
-        readyParties[partyId]--;
         return partyRooms[partyId];
     }
 
@@ -204,13 +231,25 @@ public class Parties implements PartiesInterface {
         currentThief = ordinaryThiefId;
         siteLocation = 0;
 
+        System.out.println("OT_" + currentThief + " entered crawlo out");
         partyId = partyMembers[currentThief];
+        readyMembers[partyId]++;
         parties[partyId].setState(currentThief, ThiefState.CRAWLING_OUTWARDS);
     
-        if (currentThief == parties[partyId].tail())
+        if (readyMembers[partyId] == HeistConstants.PARTY_SIZE)
         {
             nextMovingThief[partyId] = parties[partyId].head();
             notifyAll();
+        }
+
+        while(readyMembers[partyId] != HeistConstants.PARTY_SIZE)
+        {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
         while (true) {
@@ -224,6 +263,9 @@ public class Parties implements PartiesInterface {
                     e.printStackTrace();
                 }
             }
+
+            parties[partyId].printPartyStatus();
+
             while (parties[partyId].canMove(currentThief) && parties[partyId].getPosition(currentThief) > siteLocation) {
                 System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") trying to move");
                 parties[partyId].doBestMove(currentThief, md);
@@ -262,6 +304,7 @@ public class Parties implements PartiesInterface {
                     partyRooms[partyId] = -1;
                     nextMovingThief[partyId] = -1;
                     readyParties[partyId] = -1;
+                    readyMembers[partyId] = 0;
                 }
 
                 break;
@@ -283,5 +326,11 @@ public class Parties implements PartiesInterface {
             }
         }
         return -1;
+    }
+
+    public void shutdown()
+    {
+        System.out.println("Shutting down...");
+        ServerParties.shutdown();
     }
 }

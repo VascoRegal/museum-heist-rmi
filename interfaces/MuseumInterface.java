@@ -8,4 +8,6 @@ public interface MuseumInterface extends Remote {
     public int getRoomLocation(int roomId) throws RemoteException;
 
     public boolean pickCanvas(int roomId) throws RemoteException;
+
+    public void shutdown() throws RemoteException;
 }

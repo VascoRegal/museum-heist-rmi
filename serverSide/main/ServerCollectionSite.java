@@ -102,7 +102,7 @@ public class ServerCollectionSite
       boolean shutdownDone = false;                                  // flag signalling the shutdown of the general repository service
 
       try
-      { registry.unbind (Resolver.GeneralHost);
+      { registry.unbind (Resolver.RMIColSiteName);
       }
       catch (RemoteException e)
       { 
@@ -133,7 +133,7 @@ public class ServerCollectionSite
    {
       end = true;
       try
-      { synchronized (Class.forName ("serverSide.main.CollectionSite"))
+      { synchronized (Class.forName ("serverSide.main.ServerCollectionSite"))
         { (Class.forName ("serverSide.main.ServerCollectionSite")).notify ();
         }
       }

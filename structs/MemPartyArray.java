@@ -310,37 +310,32 @@ public class MemPartyArray {
 
     public void setState(int thiefId, int state)
     {
+        System.out.println("Setting state of OT_" + thiefId + " to " + state);
         this.states[thiefId] = state;
     }
-    /*
-    public void updateThreads()
+    
+    public boolean partyReady()
     {
-        int current = getCurrentThief();
+        boolean ready = false;
         for (int i = 0; i < HeistConstants.PARTY_SIZE; i++)
         {
-            if (head.getThiefId() == current.getThiefId())
+            if (data[i] == -1)
             {
-                head = current;
-            }
-
-
-            if (tail.getThiefId() == current.getThiefId())
-            {
-                tail = current;
-            }
-
-            if (data[i].getThiefId() == current.getThiefId())
-            {
-                if (current.getThiefState() == ThiefState.CRAWLING_OUTWARDS) 
-                {
-                    current.setMaxDisplacement(data[i].getMaxDisplacement());
-                    current.setPosition(data[i].getPosition());
-                }
-
-                data[i] = current;
-                break;
+                return ready;
             }
         }
+        return true;
     }
-    */
+
+    public void printPartyStatus()
+    {
+        System.out.println("\n--------------");
+        for (int i = 0; i < HeistConstants.PARTY_SIZE; i++)
+        {
+            System.out.println(String.format("%d - OT_%d (pos=%d, state=%d, closest=%d)", i, data[i], positions[data[i]], states[data[i]], getClosest(data[i])));
+        }
+        System.out.println("head=" + head);
+        System.out.println("tail=" + tail);
+        System.out.println("----------------\n");
+    }
 }

@@ -105,7 +105,7 @@ public class ServerGeneralRepo
       boolean shutdownDone = false;                                  // flag signalling the shutdown of the general repository service
 
       try
-      { registry.unbind (Resolver.GeneralHost);
+      { registry.unbind (Resolver.RMIGeneralName);
       }
       catch (RemoteException e)
       { 
