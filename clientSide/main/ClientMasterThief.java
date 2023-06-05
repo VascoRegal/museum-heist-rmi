@@ -2,14 +2,12 @@ package clientSide.main;
 
 import java.rmi.registry.*;
 import java.rmi.*;
-import java.rmi.server.*;
 import clientSide.entities.*;
 import consts.Resolver;
-import serverSide.main.*;
 import interfaces.*;
 
 /**
- *    Client side of the Sleeping Barbers (barbers).
+ *    Client side of the Museum Heist (master thief).
  *
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on Java RMI.

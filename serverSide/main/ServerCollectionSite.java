@@ -9,7 +9,7 @@ import serverSide.objects.*;
 import interfaces.*;
 
 /**
- *    Instantiation and registering of a general repository object.
+ *    Instantiation and registering of a collection site object.
  *
  *    Implementation of a client-server model of type 2 (server replication).
  *    Communication is based on Java RMI.
@@ -26,9 +26,6 @@ public class ServerCollectionSite
   /**
    *  Main method.
    *
-   *        args[0] - port number for listening to service requests
-   *        args[1] - name of the platform where is located the RMI registering service
-   *        args[2] - port nunber where the registering service is listening to service requests
    */
 
    public static void main(String[] args)
@@ -78,6 +75,8 @@ public class ServerCollectionSite
             e1.printStackTrace();
         }
       }
+
+      System.out.println("[COLLECTION_SITE] Bound object to " + Resolver.RMIColSiteName);
 
      /* wait for the end of operations */
       try

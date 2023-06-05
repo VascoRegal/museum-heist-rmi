@@ -298,22 +298,41 @@ public class MemPartyArray {
         return this.tail;
     }
 
+    /**
+     * Get the position of a thief in a party
+     * @param thiefId
+     * @return thief pos
+     */
     public int getPosition(int thiefId)
     {
         return this.positions[thiefId];
     }
 
+    /**
+     * set the position of a thief in a party
+     * @param thiefId
+     * @param position
+     */
     public void setPosition(int thiefId, int position)
     {
         this.positions[thiefId] = position;
     }
 
+    /**
+     * set the state of a thief in a party
+     * @param thiefId
+     * @param state
+     */
     public void setState(int thiefId, int state)
     {
         System.out.println("Setting state of OT_" + thiefId + " to " + state);
         this.states[thiefId] = state;
     }
     
+    /**
+     * Check if a party is ready to go
+     * @return true if it is, false if not
+     */
     public boolean partyReady()
     {
         boolean ready = false;
@@ -327,6 +346,9 @@ public class MemPartyArray {
         return true;
     }
 
+    /**
+     * Helper printer for debugging
+     */
     public void printPartyStatus()
     {
         System.out.println("\n--------------");

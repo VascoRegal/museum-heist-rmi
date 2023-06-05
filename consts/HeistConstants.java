@@ -25,4 +25,7 @@ public final class HeistConstants {
 
 	public static final int MIN_NUM_PAINTINGS = 8;
 	public static final int MAX_NUM_PAINTINGS = 16;
+
+	//logging
+	public static final String LOG_FILE = "/home/vregal/uni/SD/projs/museum-heist-rmi/run.log";
 }

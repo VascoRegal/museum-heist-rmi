@@ -1,5 +1,8 @@
 package clientSide.entities;
 
+/**
+ * Integer representation of thief states
+ */
 public class ThiefState {
     // MASTER THIEF
     public static final int PLANNING_THE_HEIST = 0;

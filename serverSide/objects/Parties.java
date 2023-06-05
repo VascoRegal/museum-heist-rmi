@@ -328,6 +328,9 @@ public class Parties implements PartiesInterface {
         return -1;
     }
 
+    /**
+     * end operations
+     */
     public void shutdown()
     {
         System.out.println("Shutting down...");

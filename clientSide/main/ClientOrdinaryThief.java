@@ -15,7 +15,7 @@ import interfaces.MuseumInterface;
 import interfaces.PartiesInterface;
 
 /**
- * Client Instantiation
+ * Client Instantiation of the ordinary thieves
  */
 public class ClientOrdinaryThief {
     public static void main(String[] args)

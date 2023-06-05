@@ -9,10 +9,25 @@ package structs;
  *  
  */
 public class MemQueue<T> {
+    /**
+     * pointers and size
+     */
     private int in, out, size;
+
+    /**
+     * empty queue flag
+     */
     private boolean empty;
+
+    /**
+     * actual data array
+     */
     private T[] array;
 
+    /**
+     * constructor
+     * @param array
+     */
     public MemQueue( T [] array) {
         this.array = array;
         this.in = this.out = 0;
@@ -20,6 +35,10 @@ public class MemQueue<T> {
         empty = true;
     }
 
+    /**
+     * enqueue an object
+     * @param object
+     */
     public void enqueue(T object) {
         if ((in != out) || empty) {
             array[in] = object;
@@ -29,6 +48,10 @@ public class MemQueue<T> {
         }
     }
 
+    /**
+     * dequeue an object
+     * @return
+     */
     public T dequeue() {
 
         T obj = null;
@@ -42,18 +65,18 @@ public class MemQueue<T> {
         return obj;
     }
 
-    public T[] array() {
-        return array;
-    }
-
+    /**
+     * get the current queue size
+     * @return
+     */
     public int size() {
         return this.size;
     }
 
-    public T[] getArray() {
-        return this.array;
-    }
-
+    /**
+     * get the empty flag
+     * @return
+     */
     public boolean empty()
     {
         return this.size == 0;

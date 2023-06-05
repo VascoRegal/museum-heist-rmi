@@ -140,7 +140,7 @@ public class CollectionSite implements CollectionSiteInterface {
     }
 
     /**
-     * 
+     * Get heist state
      * @return heist flag
      */
     public synchronized boolean getHeistStatus()
@@ -148,6 +148,10 @@ public class CollectionSite implements CollectionSiteInterface {
         return this.heistInProgress;
     }
 
+    /**
+     * Operation start operations
+     * Called by MT to start the heist
+     */
     public synchronized void startOperations()
     {
         mt = (Thread.currentThread());
@@ -285,7 +289,7 @@ public class CollectionSite implements CollectionSiteInterface {
     }
 
     /**
-     * enqueue ordinary thief in canvas collection
+     * Enqueue OTs in canvas collection
      */
     public synchronized void handCanvas(int ordinaryThiefId, boolean cv)
     {
@@ -379,6 +383,9 @@ public class CollectionSite implements CollectionSiteInterface {
         return -1;
     }
 
+    /**
+     * end operations
+     */
     public void shutdown()
     {
         System.out.println("Shutting down...");

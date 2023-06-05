@@ -1,5 +1,8 @@
 package serverSide.objects;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import clientSide.entities.ThiefState;
 import consts.HeistConstants;
 import interfaces.GeneralRepoInterface;
@@ -19,6 +22,11 @@ public class GeneralRepo implements GeneralRepoInterface {
      * ordinary thief state reference
      */
     private int [] otStates;
+
+    /**
+     * Loggin file
+     */
+    private FileWriter logFile;
 
     /**
      * instatiation
@@ -65,9 +73,30 @@ public class GeneralRepo implements GeneralRepoInterface {
         this.otStates[thiefId] = ts;
     }
 
+    /**
+     * end operaitons
+     */
     public void shutdown()
     {
         System.out.println("Shutting down...");
         ServerGeneralRepo.shutdown();
+    }
+
+
+    /**
+     * Logging setup
+     */
+    public void setupLogging()
+    {
+        /* 
+        try {
+            logFile = new FileWriter(HeistConstants.LOG_FILE);
+            logFile.write("             Museum Heist - Description of Internal State");
+            logFile.write();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        */
     }
 }

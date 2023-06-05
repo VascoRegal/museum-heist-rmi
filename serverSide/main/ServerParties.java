@@ -71,17 +71,16 @@ public class ServerParties
       }
       catch (AlreadyBoundException e)
       { 
-        System.out.println("Already bound, continuing...");
         try {
           registry.rebind(Resolver.RMIPartiesName, pStub);
         } catch (AccessException e1) {
-          // TODO Auto-generated catch block
           e1.printStackTrace();
         } catch (RemoteException e1) {
-          // TODO Auto-generated catch block
           e1.printStackTrace();
         }
       }
+
+      System.out.println("[PARTIES] Bound object to " + Resolver.RMIPartiesName);
 
      /* wait for the end of operations */
       try

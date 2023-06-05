@@ -74,12 +74,36 @@ public interface CollectionSiteInterface extends Remote
    public int prepareAssaultParty () throws RemoteException;
 
 
-    public void takeARest() throws RemoteException;
+   /**
+    * Opearion take a rest
+    *
+    * Called by the MT, waits for thieves to arrive with canvas
+    * @throws RemoteException
+    */
+  public void takeARest() throws RemoteException;
 
-
+  /**
+   * Operation collect canvas
+   * 
+   * Called by the MT, collects a canvas from a thief in queue
+   * @throws RemoteException
+   */
   public void collectCanvas() throws RemoteException;
 
+  /**
+   * Operation hand a canvas
+   * 
+   * Called by the OTs, queues up the thief to be received later by the waiting MT
+   * 
+   * @param thiefId id of the thief waiting
+   * @param cv wether or not he has a canvas
+   * @throws RemoteException
+   */
   public void handCanvas(int thiefId, boolean cv) throws RemoteException;
 
+  /**
+   * shutdown server operations
+   * @throws RemoteException
+   */
   public void shutdown() throws RemoteException;
 }

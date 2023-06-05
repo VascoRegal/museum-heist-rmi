@@ -76,6 +76,9 @@ public class Museum implements MuseumInterface {
         return picked;
     }
 
+    /**
+     * end operations
+     */
     public void shutdown()
     {
         System.out.println("Shutting down...");
