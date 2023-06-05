@@ -12,29 +12,18 @@ user=sd302
 
 
 # build and zip code 
-"find . -name "*.class" -type f -print0 | xargs -0 /bin/rm -f"
-
-serverDir="serverSide/main/"
-servers=(ServerGeneralRepo ServerCollectionSite ServerParties ServerMuseum)
-clientDir="clientSide/main/"
-clients=(ClientMasterThief ClientOrdinaryThief)
-
-printf "[+] Building Servers...\n"
-for s in ${servers[@]}; do
-    printf "\t $s\n"
-    javac ${serverDir}${s}.java
-    printf "\n"
-done
+find . -name "*.class" -type f -print0 | xargs -0 /bin/rm -f
 
 
-printf "\n\n[+] Building Clients...\n"
-for c in ${clients[@]}; do
-    printf "\t $c\n" 
-    javac ${clientDir}${c}.java
-    printf "\n"
-done
+printf "\n[+] Zipping project..."
 
-zip -rq MuseumHeist.zip ../museum-heist-rmi
+cd ..
+zip -rq MuseumHeist.zip museum-heist-rmi --exclude=password --exclude=*.git* --exclude=*.class
+cd museum-heist-rmi
+mv -f ../MuseumHeist.zip .
 
-# Start rmi registry
-# sshpass -f password ssh ${user}@${RMIHostName} 'rmiregistry ${RMIPort}'
+printf "\n[+] Start rmi registry"
+sshpass -f password ssh ${user}@${RMIHostName} 'rmiregistry ${RMIPort}'
+
+
+./deployServer.sh $GeneralHost ServerGeneralRepo

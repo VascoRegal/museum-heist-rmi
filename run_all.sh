@@ -23,6 +23,7 @@ for c in ${clients[@]}; do
 done
 
 
+
 read -p ">>> Press any key to launch servers"
 
 printf "[+] Launching Servers...\n"
