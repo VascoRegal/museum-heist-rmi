@@ -35,6 +35,7 @@ public class ServerCollectionSite
 
       CollectionSite repo = new CollectionSite();                      // general repository object
       CollectionSiteInterface cStub = null;                        // remote reference to the general repository object
+      Register reg = null;
 
       try
       { cStub = (CollectionSiteInterface) UnicastRemoteObject.exportObject (repo, Resolver.CollectionSitePort);
@@ -58,8 +59,15 @@ public class ServerCollectionSite
         System.exit (1);
       }
 
+      try {
+        reg = (Register) registry.lookup(Resolver.RMIRegisterName);
+      } catch (RemoteException | NotBoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
       try
-      { registry.bind (Resolver.RMIColSiteName, cStub);
+      { reg.bind (Resolver.RMIColSiteName, cStub);
       }
       catch (RemoteException e)
       { 
@@ -69,7 +77,7 @@ public class ServerCollectionSite
       catch (AlreadyBoundException e)
       { 
         try {
-            registry.rebind(Resolver.RMIColSiteName, cStub);
+            reg.rebind(Resolver.RMIColSiteName, cStub);
         } catch (RemoteException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -101,7 +109,7 @@ public class ServerCollectionSite
       boolean shutdownDone = false;                                  // flag signalling the shutdown of the general repository service
 
       try
-      { registry.unbind (Resolver.RMIColSiteName);
+      { reg.unbind (Resolver.RMIColSiteName);
       }
       catch (RemoteException e)
       { 

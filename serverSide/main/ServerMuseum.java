@@ -35,6 +35,7 @@ public class ServerMuseum
 
       Museum repo = new Museum();                      // general repository object
       MuseumInterface mStub = null;                        // remote reference to the general repository object
+      Register reg = null;
 
       try
       { mStub = (MuseumInterface) UnicastRemoteObject.exportObject (repo, Resolver.MuseumPort);
@@ -58,8 +59,15 @@ public class ServerMuseum
         System.exit (1);
       }
 
+      try {
+        reg = (Register) registry.lookup(Resolver.RMIRegisterName);
+      } catch (RemoteException | NotBoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
       try
-      { registry.bind (Resolver.RMIMuseumName, mStub);
+      { reg.bind (Resolver.RMIMuseumName, mStub);
       }
       catch (RemoteException e)
       { 
@@ -69,7 +77,7 @@ public class ServerMuseum
       catch (AlreadyBoundException e)
       { 
         try {
-          registry.rebind(Resolver.RMIMuseumName, mStub);
+          reg.rebind(Resolver.RMIMuseumName, mStub);
         } catch (AccessException e1) {
           e1.printStackTrace();
         } catch (RemoteException e1) {
@@ -102,7 +110,7 @@ public class ServerMuseum
       boolean shutdownDone = false;                                  // flag signalling the shutdown of the general repository service
 
       try
-      { registry.unbind (Resolver.RMIMuseumName);
+      { reg.unbind (Resolver.RMIMuseumName);
       }
       catch (RemoteException e)
       { 

@@ -38,6 +38,7 @@ public class ServerParties
 
       Parties repo = new Parties();                      // general repository object
       PartiesInterface pStub = null;                        // remote reference to the general repository object
+      Register reg = null;
 
       try
       { pStub = (PartiesInterface) UnicastRemoteObject.exportObject (repo, Resolver.PartiesPort);
@@ -61,8 +62,16 @@ public class ServerParties
         System.exit (1);
       }
 
+
+      try {
+        reg = (Register) registry.lookup(Resolver.RMIRegisterName);
+      } catch (RemoteException | NotBoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
       try
-      { registry.bind (Resolver.RMIPartiesName, pStub);
+      { reg.bind (Resolver.RMIPartiesName, pStub);
       }
       catch (RemoteException e)
       { 
@@ -72,7 +81,7 @@ public class ServerParties
       catch (AlreadyBoundException e)
       { 
         try {
-          registry.rebind(Resolver.RMIPartiesName, pStub);
+          reg.rebind(Resolver.RMIPartiesName, pStub);
         } catch (AccessException e1) {
           e1.printStackTrace();
         } catch (RemoteException e1) {
@@ -105,7 +114,7 @@ public class ServerParties
       boolean shutdownDone = false;                                  // flag signalling the shutdown of the general repository service
 
       try
-      { registry.unbind (Resolver.RMIPartiesName);
+      { reg.unbind (Resolver.RMIPartiesName);
       }
       catch (RemoteException e)
       { 

@@ -33,8 +33,12 @@ public class ServerGeneralRepo
 
      /* instantiate a general repository object */
 
+
+      if (System.getSecurityManager () == null)
+        System.setSecurityManager (new SecurityManager ());
       GeneralRepo repo = new GeneralRepo ();                      // general repository object
       GeneralRepoInterface reposStub = null;                        // remote reference to the general repository object
+      Register reg = null;
 
       try
       { reposStub = (GeneralRepoInterface) UnicastRemoteObject.exportObject (repo, Resolver.GeneralPort);
@@ -58,8 +62,15 @@ public class ServerGeneralRepo
         System.exit (1);
       }
 
+      try {
+        reg = (Register) registry.lookup(Resolver.RMIRegisterName);
+      } catch (RemoteException | NotBoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
       try
-      { registry.bind (Resolver.RMIGeneralName, reposStub);
+      { reg.bind (Resolver.RMIGeneralName, reposStub);
       }
       catch (RemoteException e)
       { 
@@ -79,7 +90,7 @@ public class ServerGeneralRepo
         }
       }
 
-      System.out.println("[GENERAL] Bound object to " + Resolver.RMIHostName);
+      System.out.println("[GENERAL] Bound object to " + Resolver.RMIGeneralName);
 
      /* wait for the end of operations */
       try
