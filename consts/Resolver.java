@@ -37,11 +37,11 @@ public final class Resolver {
     */
  
     // RMI
-    public static final String RMIHostName = "l040101-ws07.ua.pt";
-    public static final int RMIPort = 22174;
+    public static final String RMIHostName = "l040101-ws08.ua.pt";
+    public static final int RMIPort = 22171;
     
     // Register
-    public static final String RegisterHostName = "l040101-ws07.ua.pt";
+    public static final String RegisterHostName = "l040101-ws08.ua.pt";
     public static final int RegisterPort = 22175;
     public static final String RMIRegisterName = "Register";
 

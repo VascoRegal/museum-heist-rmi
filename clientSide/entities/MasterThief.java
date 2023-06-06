@@ -64,7 +64,7 @@ public class MasterThief extends Thief {
 
         char action;
         int partyId;
-
+        System.out.println(this.collectionSiteMemory);
         startOperations();
         while (isHeistInProgress())
         {

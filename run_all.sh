@@ -1,46 +1,21 @@
 #!/bin/bash
 
-"find . -name "*.class" -type f -print0 | xargs -0 /bin/rm -f"
+servers=(Register GeneralRepo CollectionSite Parties Museum)
+clients=(MasterThief OrdinaryThief)
 
-serverDir="serverSide/main/"
-servers=(ServerGeneralRepo ServerCollectionSite ServerParties ServerMuseum)
-clientDir="clientSide/main/"
-clients=(ClientMasterThief ClientOrdinaryThief)
 
-printf "[+] Building Servers...\n"
+xterm -T RMI -hold -e "sh RMIDeployAndRun.sh" &
+
+sleep 3
+
 for s in ${servers[@]}; do
-    printf "\t $s\n"
-    javac ${serverDir}${s}.java
-    printf "\n"
+    xterm -T $s -hold -e "sh ${s}DeployAndRun.sh" &
+    sleep 3
 done
 
+sleep 2
 
-printf "\n\n[+] Building Clients...\n"
 for c in ${clients[@]}; do
-    printf "\t $c\n" 
-    javac ${clientDir}${c}.java
-    printf "\n"
-done
-
-
-
-read -p ">>> Press any key to launch servers"
-
-printf "[+] Launching Servers...\n"
-for s in ${servers[@]}; do
-    printf "\t $s\n"
-    xterm -T $s -e java ${serverDir}${s} &
-    printf "\n"
-    sleep 1
-done
-
-
-read -p ">>> Press any key to launch clients"
-
-printf "\n\n[+] Launching Clients...\n"
-for c in ${clients[@]}; do
-    printf "\t $c\n" 
-    xterm -T $c -e java ${clientDir}${c} &
-    printf "\n"
-    sleep 1
+    xterm -T $c -hold -e "sh ${c}DeployAndRun.sh" &
+    sleep 3
 done

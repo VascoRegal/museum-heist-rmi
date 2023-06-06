@@ -33,6 +33,9 @@ public class ServerMuseum
 
      /* instantiate a general repository object */
 
+     if (System.getSecurityManager () == null)
+        System.setSecurityManager (new SecurityManager ());
+
       Museum repo = new Museum();                      // general repository object
       MuseumInterface mStub = null;                        // remote reference to the general repository object
       Register reg = null;

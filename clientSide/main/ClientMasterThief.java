@@ -35,7 +35,8 @@ public class ClientMasterThief
       Registry registry = null;                                      // remote reference for registration in the RMI registry service
 
       try
-      { registry = LocateRegistry.getRegistry (Resolver.RMIHostName, Resolver.RMIPort);
+      { 
+        registry = LocateRegistry.getRegistry (Resolver.RMIHostName, Resolver.RMIPort);
       }
       catch (RemoteException e)
       { 

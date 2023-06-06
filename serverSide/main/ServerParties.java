@@ -36,6 +36,9 @@ public class ServerParties
 
      /* instantiate a general repository object */
 
+     if (System.getSecurityManager () == null)
+        System.setSecurityManager (new SecurityManager ());
+
       Parties repo = new Parties();                      // general repository object
       PartiesInterface pStub = null;                        // remote reference to the general repository object
       Register reg = null;
