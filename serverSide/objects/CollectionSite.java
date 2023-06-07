@@ -184,7 +184,6 @@ public class CollectionSite implements CollectionSiteInterface {
                 System.exit(1);
             }
         }
-        System.out.println("[COLLECTION_SITE] OrdinaryThief_" + ordinaryThiefId+  " called for Party_" + partyAssignments[ordinaryThiefId]);
 
         if (!heistInProgress)
         {
@@ -192,6 +191,7 @@ public class CollectionSite implements CollectionSiteInterface {
             return -1;
         }
 
+        System.out.println("[COLLECTION_SITE] OrdinaryThief_" + ordinaryThiefId+  " called for Party_" + partyAssignments[ordinaryThiefId]);
         return partyAssignments[ordinaryThiefId];
     }
 
@@ -214,6 +214,7 @@ public class CollectionSite implements CollectionSiteInterface {
             mtState = (ThiefState.PRESENTING_THE_REPORT);
             heistInProgress = false;
             notifyAll();
+            System.out.println("\n\n Master Thief - My friends, tonight's heist produced " + paintings + " paintings!\n");
             return 's';
         }
         if (activeParties == HeistConstants.MAX_NUM_PARTIES ||

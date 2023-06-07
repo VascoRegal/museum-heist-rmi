@@ -65,5 +65,7 @@ public class ClientOrdinaryThief {
                 e.printStackTrace();
             }
         }
+
+        System.out.println("Shutting down...");
     }
 }

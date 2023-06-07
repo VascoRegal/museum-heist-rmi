@@ -1,7 +1,6 @@
 package serverSide.objects;
 
 import java.io.FileWriter;
-import java.io.IOException;
 
 import clientSide.entities.ThiefState;
 import consts.HeistConstants;

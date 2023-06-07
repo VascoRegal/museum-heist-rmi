@@ -80,7 +80,7 @@ public class ServerGeneralRepo
       catch (AlreadyBoundException e)
       { 
         try {
-          registry.rebind(Resolver.RMIGeneralName, reposStub);
+          reg.rebind(Resolver.RMIGeneralName, reposStub);
         } catch (AccessException e1) {
           // TODO Auto-generated catch block
           e1.printStackTrace();
@@ -115,7 +115,7 @@ public class ServerGeneralRepo
       boolean shutdownDone = false;                                  // flag signalling the shutdown of the general repository service
 
       try
-      { registry.unbind (Resolver.RMIGeneralName);
+      { reg.unbind (Resolver.RMIGeneralName);
       }
       catch (RemoteException e)
       { 

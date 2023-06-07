@@ -1,7 +1,6 @@
 package structs;
 
 import clientSide.entities.ThiefState;
-import clientSide.entities.Thief;
 import consts.HeistConstants;
 
 /**
@@ -325,7 +324,6 @@ public class MemPartyArray {
      */
     public void setState(int thiefId, int state)
     {
-        System.out.println("Setting state of OT_" + thiefId + " to " + state);
         this.states[thiefId] = state;
     }
     

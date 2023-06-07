@@ -62,7 +62,7 @@ public class ClientMasterThief
       }
 
 
-      MasterThief mt = new MasterThief(0, reposStub, cStub, pStub, null);
+      MasterThief mt = new MasterThief(0, reposStub, cStub, pStub, mStub);
       mt.start();
       try {
         mt.join();
@@ -80,6 +80,8 @@ public class ClientMasterThief
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
+    System.out.println("Shutting down...");
     
    }
 }

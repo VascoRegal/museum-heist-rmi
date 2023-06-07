@@ -64,7 +64,7 @@ public class Museum implements MuseumInterface {
         boolean picked = false;
         targetRoom = rooms[roomId];
 
-        System.out.println(String.format("[MUSEUM] Room_%d Lost a painting (we can roll it up)", roomId));
+        System.out.println(String.format("[MUSEUM] Room_%d Lost a painting", roomId));
         if (!targetRoom.isEmpty()) {
             targetRoom.removePainting();
             picked = true;

@@ -264,8 +264,6 @@ public class Parties implements PartiesInterface {
                 }
             }
 
-            parties[partyId].printPartyStatus();
-
             while (parties[partyId].canMove(currentThief) && parties[partyId].getPosition(currentThief) > siteLocation) {
                 System.out.println("[PARTY_" + partyId + "] OT_" + currentThief + " (pos=" + parties[partyId].getPosition(currentThief) + ", md=" + md + ") trying to move");
                 parties[partyId].doBestMove(currentThief, md);
